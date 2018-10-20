@@ -120,13 +120,6 @@ class Engine
 end
 
 def print_debug(string)
-# space_level_indication
-#  local_debug_level = 1
-#  while (local_debug_level <= $debug_level)
-#    print "  "
-#    local_debug_level = local_debug_level + 1
-#  end
-
 # color_level_indication
   set_color("debug")
   STDOUT.print "[#$debug_level] "
@@ -135,13 +128,6 @@ def print_debug(string)
 end
 
 def print_error(string)
-# space_level_indication
-#  local_debug_level = 1
-#  while (local_debug_level <= $debug_level)
-#    print "  "
-#    local_debug_level = local_debug_level + 1
-#  end
-
 # color_level_indication
   set_color("error")
   STDERR.print string
