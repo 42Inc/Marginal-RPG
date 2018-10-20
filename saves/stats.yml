@@ -1,0 +1,8 @@
+---
+
+- name: "HeroMarginal"
+  HP: 50
+  MP: 30
+  ST: 60
+  San: 5
+  Cash: 200
