@@ -8,15 +8,15 @@ module Model
     def initialize(choice)
       case choice
         when 1
-          system 'clear'
+#          system 'clear'
           puts '[SYSTEM]  Starting new game...'
           create_new_hero('cfg/stats.yml')
         when 2
-          system 'clear'
+#          system 'clear'
           puts '[SYSTEM]  Loading game...'
           load_hero('saves/stats.yml')
         else
-          system 'clear'
+#          system 'clear'
           puts '[FAILED]  Input error!'
       end
     end
@@ -53,9 +53,9 @@ module Model
       printf("Cash:\t%s\n", @cash)
     end
   end
-  system 'clear'
+#  system 'clear'
   printf("[SYSTEM]  Starting engine...\n")
   printf("[SYSTEM]  Loading events...\n")
   printf("[SYSTEM]  Triggering events...\n")
-  stream = HeroMarine.new(gets.chomp.to_i)
+#  stream = HeroMarine.new(gets.chomp.to_i)
 end
