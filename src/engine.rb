@@ -1,6 +1,7 @@
 #!/usr/bin/ruby
 
 require_relative "hero.rb"
+require_relative "events.rb"
 
 $debug_engine = 0
 $debug_level  = 0
@@ -10,7 +11,8 @@ class Engine
     include Model
     def initialize()
       @game_variable = -1
-      @menu_variable = ""
+      @main_menu_variable = ""
+      @proc_menu_variable = -1
 #      @GameEvents = Events.new
     end
 
@@ -19,7 +21,8 @@ class Engine
         print_debug("Start method run()\n")
         $debug_level = $debug_level + 1
       end
-      menu()
+
+      main_menu()
       game()
       if ($debug_engine == 1)
         $debug_level = $debug_level - 1
@@ -41,14 +44,14 @@ class Engine
             print_debug("Create new Hero in method game()\n")
           end
           @GameHero = HeroMarine.new(1)
-          process()
+          game_process()
         when 2
           if ($debug_engine == 1)
             print_debug("Accept load game\n")
             print_debug("Load Hero in method game()\n")
           end
           @GameHero = HeroMarine.new(2)
-          process()
+          game_process()
         when 3
           if ($debug_engine == 1)
             print_debug("Accept quit\n")
@@ -68,33 +71,41 @@ class Engine
       end
     end
 
-    def process()
+    def game_process()
       if ($debug_engine == 1)
-        print_debug("Start method process()\n")
-        $debug_level = $debug_level + 1
-      end
-
-      if ($debug_engine == 1)
-        $debug_level = $debug_level - 1
-        print_debug("End method process()\n")
-      end
-    end
-
-    def menu()
-      if ($debug_engine == 1)
-        print_debug("Start method menu()\n")
+        print_debug("Start method game_process()\n")
         $debug_level = $debug_level + 1
       end
 
       loop do
-        print_menu()
-        @menu_variable = STDIN.gets.chomp!
+        #@GameEvents.print_events_for_hero(@GameHero)
+        #@proc_menu_variable = @GameEvents.get_variable
+        break if (@proc_menu_variable == -1)
+        #@GameHero = @proc_menu_variable = @GameEvents.accept_event_for_hero(@GameHero)
+        
+      end
+
+      if ($debug_engine == 1)
+        $debug_level = $debug_level - 1
+        print_debug("End method game_process()\n")
+      end
+    end
+
+    def main_menu()
+      if ($debug_engine == 1)
+        print_debug("Start method main_menu()\n")
+        $debug_level = $debug_level + 1
+      end
+
+      loop do
+        print_main_menu()
+        @main_menu_variable = STDIN.gets.chomp!
 
         if ($debug_engine == 1)
-          print_debug("menu_variable in method menu() -> #@menu_variable\n")
+          print_debug("main_menu_variable in method main_menu() -> #@main_menu_variable\n")
         end
 
-        break if (test_menu_variable() != -1)
+        break if (test_main_menu_variable() != -1)
         if ($debug_engine != 1)
           system "clear"
         end
@@ -105,43 +116,43 @@ class Engine
 
       if ($debug_engine == 1)
         $debug_level = $debug_level - 1
-        print_debug("End method menu()\n")
+        print_debug("End method main_menu()\n")
       end
     end
 
-    def test_menu_variable()
+    def test_main_menu_variable()
       if ($debug_engine == 1)
-        print_debug("Start method test_menu_variable()\n")
+        print_debug("Start method test_main_menu_variable()\n")
         $debug_level = $debug_level + 1
-        print_debug("menu_variable in method test_menu_variable() -> #@menu_variable\n")
+        print_debug("main_menu_variable in method test_main_menu_variable() -> #@main_menu_variable\n")
       end
 
-      if (@@menu_variants_array.include?(@menu_variable))
-        @game_variable = (@@menu_variants_array.index(@menu_variable) + 2) / 2
+      if (@@main_menu_variants_array.include?(@main_menu_variable))
+        @game_variable = (@@main_menu_variants_array.index(@main_menu_variable) + 2) / 2
       else
         @game_variable = -1
       end
 
       if ($debug_engine == 1)
-        print_debug("game_variable in method test_menu_variable() -> #@game_variable\n")
+        print_debug("game_variable in method test_main_menu_variable() -> #@game_variable\n")
         $debug_level = $debug_level - 1
-        print_debug("End method test_menu_variable()\n")
+        print_debug("End method test_main_menu_variable()\n")
       end
 
       return @game_variable
     end
 
-    @@menu_variants_array = ["n", "n - New game\n",
+    @@main_menu_variants_array = ["n", "n - New game\n",
                              "l", "l - Load game\n",
                              "q", "q - Quit game\n",
                              "t", "t - Start game testing\n"]
-    def print_menu()
+    def print_main_menu()
       if ($debug_engine == 1)
-        print_debug("Start method print_menu()\n")
+        print_debug("Start method print_main_menu()\n")
         $debug_level = $debug_level + 1
       end
 
-      @@menu_variants_array.each_with_index do |value,index|
+      @@main_menu_variants_array.each_with_index do |value,index|
         if (index % 2 == 1)
           STDOUT.print value
         end
@@ -149,7 +160,7 @@ class Engine
 
       if ($debug_engine == 1)
         $debug_level = $debug_level - 1
-        print_debug("End method print_menu()\n")
+        print_debug("End method print_main_menu()\n")
       end
     end
 end
