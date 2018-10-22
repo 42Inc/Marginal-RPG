@@ -1,10 +1,56 @@
 #!/usr/bin/ruby
 
-require_relative "hero.rb"
-require_relative "events.rb"
-
 $debug_engine = 0
 $debug_level  = 0
+
+if (ARGV.length > 0)
+  if (ARGV[0] == "y")
+    $debug_engine = 1
+  else
+    $debug_engine = 0
+  end
+end
+
+def print_debug(string)
+# color_level_indication
+  set_color("debug")
+  STDOUT.print "[#$debug_level] "
+  set_color("default")
+  STDOUT.print string
+end
+
+def print_system(string)
+# color_level_indication
+  set_color("system")
+  STDOUT.print "[SYSTEM] "
+  set_color("default")
+  STDOUT.print string
+end
+
+def print_error(string)
+# color_level_indication
+  set_color("error")
+  STDERR.print string
+  set_color("default")
+end
+
+def set_color(color)
+  if (color == "debug")
+    STDOUT.print "\033[01;36m"
+  elsif (color == "error")
+    STDERR.print "\033[01;31m"
+  elsif (color == "system")
+    STDERR.print "\033[01;33m"
+  elsif (color == "wrong")
+    STDOUT.print "\033[01;31m"
+  elsif (color == "default")
+    STDOUT.print "\033[00m"
+    STDERR.print "\033[00m"
+  end
+end
+
+require_relative "hero.rb"
+require_relative "events.rb"
 
 class Engine
   public
@@ -13,7 +59,8 @@ class Engine
       @game_variable = -1
       @main_menu_variable = ""
       @proc_menu_variable = -1
-#      @GameEvents = Events.new
+      @GameEvents = Events.new
+      print_system("Creating events...\n")
     end
 
     def run()
@@ -56,6 +103,7 @@ class Engine
           if ($debug_engine == 1)
             print_debug("Accept quit\n")
           end
+            print_system("Quit game...\n")
         when 4
           if ($debug_engine == 1)
             print_debug("Accept tests\n")
@@ -78,11 +126,9 @@ class Engine
       end
 
       loop do
-        #@GameEvents.print_events_for_hero(@GameHero)
-        #@proc_menu_variable = @GameEvents.get_variable
-        break if (@proc_menu_variable == -1)
-        #@GameHero = @proc_menu_variable = @GameEvents.accept_event_for_hero(@GameHero)
-        
+        @GameHero.print_stats
+        @proc_menu_variable = @GameEvents.get_event_for_hero(@GameHero)
+        break if (@proc_menu_variable == -1)        
       end
 
       if ($debug_engine == 1)
@@ -165,34 +211,6 @@ class Engine
     end
 end
 
-def print_debug(string)
-# color_level_indication
-  set_color("debug")
-  STDOUT.print "[#$debug_level] "
-  set_color("default")
-  STDOUT.print string
-end
-
-def print_error(string)
-# color_level_indication
-  set_color("error")
-  STDERR.print string
-  set_color("default")
-end
-
-def set_color(color)
-  if (color == "debug")
-    STDOUT.print "\033[01;36m"
-  elsif (color == "error")
-    STDERR.print "\033[01;31m"
-  elsif (color == "wrong")
-    STDOUT.print "\033[01;31m"
-  elsif (color == "default")
-    STDOUT.print "\033[00m"
-    STDERR.print "\033[00m"
-  end
-end
-
 if (ARGV.length > 0)
   if (ARGV[0] == "y")
     $debug_engine = 1
@@ -201,5 +219,6 @@ if (ARGV.length > 0)
   end
 end
 
+print_system("Starting engine...\n")
 GameEngine = Engine.new
 GameEngine.run()
