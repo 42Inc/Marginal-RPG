@@ -11,7 +11,7 @@ class Engine
     def initialize()
       @game_variable = -1
       @menu_variable = ""
-#      @GameEvents = Events.new 
+#      @GameEvents = Events.new
     end
 
     def run()
@@ -33,7 +33,7 @@ class Engine
         print_debug("Start method game()\n")
         $debug_level = $debug_level + 1
       end
-      
+
       case @game_variable
         when 1
           if ($debug_engine == 1)
@@ -99,7 +99,7 @@ class Engine
           system "clear"
         end
         set_color("error")
-        STDOUT.print "Wrong variant! Repeat\n\n"
+        STDOUT.print "[ERROR]  Incorrect option! Try again...\n\n"
         set_color("default")
       end
 
@@ -131,16 +131,16 @@ class Engine
       return @game_variable
     end
 
-    @@menu_variants_array = ["n", "n - new game\n",
-                             "l", "l - load game\n",
-                             "q", "q - quit game\n",
-                             "t", "t - start tests to game\n"]
+    @@menu_variants_array = ["n", "n - New game\n",
+                             "l", "l - Load game\n",
+                             "q", "q - Quit game\n",
+                             "t", "t - Start game testing\n"]
     def print_menu()
       if ($debug_engine == 1)
         print_debug("Start method print_menu()\n")
         $debug_level = $debug_level + 1
       end
-      
+
       @@menu_variants_array.each_with_index do |value,index|
         if (index % 2 == 1)
           STDOUT.print value
@@ -184,7 +184,7 @@ end
 
 if (ARGV.length > 0)
   if (ARGV[0] == "y")
-    $debug_engine = 1 
+    $debug_engine = 1
   else
     $debug_engine = 0
   end
