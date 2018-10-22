@@ -56,6 +56,5 @@ module Model
 #  system 'clear'
   printf("[SYSTEM]  Starting engine...\n")
   printf("[SYSTEM]  Loading events...\n")
-  printf("[SYSTEM]  Triggering events...\n")
 #  stream = HeroMarine.new(gets.chomp.to_i)
 end

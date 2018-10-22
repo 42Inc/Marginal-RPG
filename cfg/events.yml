@@ -5,7 +5,7 @@
   San: -2
   Cash: 300
 
-- name: "Chilling on the beach or lawn"
+- name: "Chill out on the lawn"
   MP: -10
   ST: 10
   San: 1
@@ -24,7 +24,7 @@
   San: 1
   Cash: -100
 
-- name: "Drink with anime bois"
+- name: "Get drunk with anime bois"
   HP: -30
   MP: 90
   ST: 60
