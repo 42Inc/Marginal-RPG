@@ -70,6 +70,10 @@ module Model
         print_debug("Start method print_stats()\n")
         $debug_level = $debug_level + 1
       end
+#      Health
+#      Mana
+#      Cheerfulness
+#      Fatigue
       printf("HP:\t%s\n", @hp)
       printf("MP:\t%s\n", @mp)
       printf("ST:\t%s\n", @st)
