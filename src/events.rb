@@ -128,7 +128,7 @@ class Events
       offset = 0
 
       for counter_i in 0..(@event_count - 1)
-        if (!((@actionsList[counter_i][0] == "Go to the mines" || @actionsList[counter_i][0] == "Have some sleep") && hero.mp < 50 && hero.san < 10))
+        if (!((@actionsList[counter_i][0] == "Go to the mines") && hero.mp < 50 && hero.san < 10))
           #dynamic index for menu
           STDOUT.print("Event available: [" + (counter_i + 1 - offset).to_s  + "] "  + @actionsList[counter_i][0] + "\n")
           #expect (printed)
