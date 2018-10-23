@@ -19,6 +19,13 @@ def print_debug(string)
   STDOUT.print string
 end
 
+def print_error_msg(string)
+# color_level_indication
+  set_color("error")
+  STDOUT.print string
+  set_color("default")
+end
+
 def print_system(string)
 # color_level_indication
   set_color("system")
@@ -37,12 +44,16 @@ end
 def set_color(color)
   if (color == "debug")
     STDOUT.print "\033[01;36m"
+    STDERR.print "\033[01;36m"
   elsif (color == "error")
+    STDOUT.print "\033[01;31m"
     STDERR.print "\033[01;31m"
   elsif (color == "system")
+    STDOUT.print "\033[01;33m"
     STDERR.print "\033[01;33m"
   elsif (color == "wrong")
     STDOUT.print "\033[01;31m"
+    STDERR.print "\033[01;31m"
   elsif (color == "default")
     STDOUT.print "\033[00m"
     STDERR.print "\033[00m"
@@ -128,9 +139,12 @@ class Engine
       loop do
         @GameHero.print_stats
         @proc_menu_variable = @GameEvents.get_event_for_hero(@GameHero)
-        break if (@proc_menu_variable == -1)        
+        break if (@proc_menu_variable == -1 || @proc_menu_variable == -2)        
       end
 
+      if (@proc_menu_variable == -2)
+        print_system("Game Over\n")
+      end
       if ($debug_engine == 1)
         $debug_level = $debug_level - 1
         print_debug("End method game_process()\n")
