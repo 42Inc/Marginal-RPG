@@ -128,14 +128,14 @@ class Events
       offset = 0
 
       for counter_i in 0..(@event_count - 1)
-        if (!((@actionsList[counter_i][0] == "Go to the mines" || @actionsList[counter_i][0] == "Have some sleep") && hero.mp < 50 && hero.san < 10)) 
+        if (!((@actionsList[counter_i][0] == "Go to the mines" || @actionsList[counter_i][0] == "Have some sleep") && hero.mp < 50 && hero.san < 10))
           #dynamic index for menu
           STDOUT.print("Event available: [" + (counter_i + 1 - offset).to_s  + "] "  + @actionsList[counter_i][0] + "\n")
           #expect (printed)
           @print_action_index[counter_i][0] = counter_i - offset
           @print_action_index[counter_i][1] = counter_i
           @print_action_count = @print_action_count + 1
-        else 
+        else
           @print_action_index[counter_i][0] = -1
           @print_action_index[counter_i][1] = counter_i
           offset = offset + 1
@@ -151,7 +151,7 @@ class Events
         print_debug("print_action_count in method print_events_for_hero() -> #@print_action_count\n")
         print_debug("print_action_index in method print_events_for_hero() -> #@print_action_index\n")
       end
-    
+
       if ($debug_events == 1)
         $debug_level = $debug_level - 1
         print_debug("End method print_events_for_hero()\n")
@@ -191,7 +191,7 @@ class Events
         print_debug("Start method accept_event_for_hero()\n")
         $debug_level = $debug_level + 1
       end
-  
+
       old_hp = hero.hp
       old_mp = hero.mp
       old_st = hero.st
@@ -205,17 +205,37 @@ class Events
       if (@actionsList[@accept_event_index][2] != nil)
         hero.mp = hero.mp + @actionsList[@accept_event_index][2].to_i
         hero.mp = hero.mp > 100 ? 100 : hero.mp
-        hero.mp = hero.mp < 0 ? 0 : hero.mp
+        unless hero.mp > 0
+          hero.hp = old_hp
+          hero.mp = 0
+          hero.st = old_st
+          hero.san = old_san
+          hero.cash = old_cash
+          print_error("Not enough mana!\n")
+        else
+          hero.mp = hero.mp
+        end
       end
       if (@actionsList[@accept_event_index][3] != nil)
         hero.st = hero.st + @actionsList[@accept_event_index][3].to_i
         hero.st = hero.st > 100 ? 100 : hero.st
-        hero.st = hero.st < 0 ? 0 : hero.st
+        unless hero.st > 0
+          hero.st = 0
+          print_error("Your hero tired!\n")
+        else
+          hero.st = hero.st
+        end
       end
       if (@actionsList[@accept_event_index][4] != nil)
         hero.san = hero.san + @actionsList[@accept_event_index][4].to_i
         hero.san = hero.san > 10 ? 10 : hero.san
-        hero.san = hero.san < -10 ? -10 : hero.san
+        unless hero.san > -10
+          hero.san = -10
+          print_error("Your hero just commited suicide!\n")
+          abort
+        else
+          hero.san = hero.san
+        end
       end
       if (@actionsList[@accept_event_index][5] != nil)
         hero.cash = hero.cash + @actionsList[@accept_event_index][5].to_i
@@ -226,10 +246,58 @@ class Events
           hero.san = old_san
           hero.cash = old_cash
 
-          print_error("Money = 0!\n")
+          print_error("Nischebrod!\n")
         end
       end
-
+      if (@actionsList[@accept_event_index][6] != nil)
+        hero.hp = hero.hp + @actionsList[@accept_event_index][1].to_i
+        hero.hp = hero.hp > 100 ? 100 : hero.hp
+        hero.san = hero.san + @actionsList[@accept_event_index][4].to_i
+        hero.san = hero.san > 10 ? 10 : hero.san
+        unless hero.san > -10
+          hero.san = -10
+          print_error("Your hero just commited suicide!\n")
+          abort
+        else
+          hero.san = hero.san
+        end
+      end
+      if (@actionsList[@accept_event_index][7] != nil)
+        hero.hp = hero.hp + @actionsList[@accept_event_index][1].to_i
+        hero.hp = hero.hp > 100 ? 100 : hero.hp
+        unless hero.hp > 0
+          hero.hp = 0
+          print_error("WASTED!\n")
+          abort
+        else
+          hero.hp = hero.hp
+        end
+        hero.mp = hero.mp + @actionsList[@accept_event_index][2].to_i
+        hero.mp = hero.mp > 100 ? 100 : hero.mp
+        hero.st = hero.st + @actionsList[@accept_event_index][3].to_i
+        hero.st = hero.st > 100 ? 100 : hero.st
+        unless hero.st > 0
+          hero.hp = old_hp
+          hero.mp = old_mp
+          hero.st = 0
+          hero.san = old_san
+          hero.cash = old_cash
+          print_error("Your hero tired!\n")
+        else
+          hero.st = hero.st
+        end
+        hero.san = hero.san + @actionsList[@accept_event_index][4].to_i
+        hero.san = hero.san > 10 ? 10 : hero.san
+        hero.cash = hero.cash + @actionsList[@accept_event_index][5].to_i
+        if (hero.cash < 0)
+          hero.hp = old_hp
+          hero.mp = old_mp
+          hero.st = old_st
+          hero.san = old_san
+          hero.cash = 0
+          print_error("Nischebrod!\n")
+        end
+      end
       if ($debug_events == 1)
         $debug_level = $debug_level - 1
         print_debug("End method accept_event_for_hero()\n")
