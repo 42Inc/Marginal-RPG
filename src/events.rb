@@ -201,6 +201,13 @@ class Events
       if (@actionsList[@accept_event_index][1] != nil)
         hero.hp = hero.hp + @actionsList[@accept_event_index][1].to_i
         hero.hp = hero.hp > 100 ? 100 : hero.hp
+        unless hero.hp > 0
+          hero.hp = 0
+          print_error("WASTED!\n")
+          abort
+        else
+          hero.hp = hero.hp
+        end
       end
       if (@actionsList[@accept_event_index][2] != nil)
         hero.mp = hero.mp + @actionsList[@accept_event_index][2].to_i
