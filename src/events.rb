@@ -192,6 +192,7 @@ class Events
         $debug_level = $debug_level + 1
       end
       game_over = 0
+      accept_error = 0
       old_hp = hero.hp
       old_mp = hero.mp
       old_st = hero.st
@@ -202,8 +203,8 @@ class Events
         hero.hp = hero.hp + @actionsList[@accept_event_index][1].to_i
         hero.hp = hero.hp > 100 ? 100 : hero.hp
         unless hero.hp > 0
-          hero.hp = 0
           print_error_msg("WASTED!\n")
+          accept_error = 1
           game_over = -2
         else
           hero.hp = hero.hp
@@ -213,12 +214,8 @@ class Events
         hero.mp = hero.mp + @actionsList[@accept_event_index][2].to_i
         hero.mp = hero.mp > 100 ? 100 : hero.mp
         unless hero.mp > 0
-          hero.hp = old_hp
-          hero.mp = old_mp
-          hero.st = old_st
-          hero.san = old_san
-          hero.cash = old_cash
           print_error_msg("Not enough mana!\n")
+          accept_error = 1
         else
           hero.mp = hero.mp
         end
@@ -227,8 +224,8 @@ class Events
         hero.st = hero.st + @actionsList[@accept_event_index][3].to_i
         hero.st = hero.st > 100 ? 100 : hero.st
         unless hero.st > 0
-          hero.st = old_st
           print_error_msg("Not allowed\n")
+          accept_error = 1
         else
           hero.st = hero.st
         end
@@ -238,6 +235,7 @@ class Events
         hero.san = hero.san > 10 ? 10 : hero.san
         unless hero.san > -10
           hero.san = -10
+          accept_error = 1
           print_error_msg("Your hero just commited suicide!\n")
           game_over = -2
         else
@@ -247,16 +245,17 @@ class Events
       if (@actionsList[@accept_event_index][5] != nil)
         hero.cash = hero.cash + @actionsList[@accept_event_index][5].to_i
         if (hero.cash < 0)
-          hero.hp = old_hp
-          hero.mp = old_mp
-          hero.st = old_st
-          hero.san = old_san
-          hero.cash = old_cash
-
+          accept_error = 1
           print_error_msg("Nischebrod!\n")
         end
       end
-
+      if (accept_error == 1)
+        hero.hp = old_hp
+        hero.mp = old_mp
+        hero.st = old_st
+        hero.san = old_san
+        hero.cash = old_cash
+      end
       if ($debug_events == 1)
         $debug_level = $debug_level - 1
         print_debug("End method accept_event_for_hero()\n")
