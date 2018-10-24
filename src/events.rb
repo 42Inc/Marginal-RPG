@@ -257,58 +257,6 @@ class Events
         end
       end
 
-#------------------------Never done------------------------------------------#
-      if (@actionsList[@accept_event_index][6] != nil)
-        print_error("6!\n")
-        hero.hp = hero.hp + @actionsList[@accept_event_index][1].to_i
-        hero.hp = hero.hp > 100 ? 100 : hero.hp
-        hero.san = hero.san + @actionsList[@accept_event_index][4].to_i
-        hero.san = hero.san > 10 ? 10 : hero.san
-        unless hero.san > -10
-          hero.san = -10
-          print_error("Your hero just commited suicide!\n")
-          abort
-        else
-          hero.san = hero.san
-        end
-      end
-      if (@actionsList[@accept_event_index][7] != nil)
-        print_error("7!\n")
-        hero.hp = hero.hp + @actionsList[@accept_event_index][1].to_i
-        hero.hp = hero.hp > 100 ? 100 : hero.hp
-        unless hero.hp > 0
-          hero.hp = 0
-          print_error("WASTED!\n")
-          abort
-        else
-          hero.hp = hero.hp
-        end
-        hero.mp = hero.mp + @actionsList[@accept_event_index][2].to_i
-        hero.mp = hero.mp > 100 ? 100 : hero.mp
-        hero.st = hero.st + @actionsList[@accept_event_index][3].to_i
-        hero.st = hero.st > 100 ? 100 : hero.st
-        unless hero.st > 0
-          hero.hp = old_hp
-          hero.mp = old_mp
-          hero.st = 0
-          hero.san = old_san
-          hero.cash = old_cash
-          print_error("Your hero tired!\n")
-        else
-          hero.st = hero.st
-        end
-        hero.san = hero.san + @actionsList[@accept_event_index][4].to_i
-        hero.san = hero.san > 10 ? 10 : hero.san
-        hero.cash = hero.cash + @actionsList[@accept_event_index][5].to_i
-        if (hero.cash < 0)
-          hero.hp = old_hp
-          hero.mp = old_mp
-          hero.st = old_st
-          hero.san = old_san
-          hero.cash = 0
-          print_error("Nischebrod!\n")
-        end
-      end
       if ($debug_events == 1)
         $debug_level = $debug_level - 1
         print_debug("End method accept_event_for_hero()\n")
