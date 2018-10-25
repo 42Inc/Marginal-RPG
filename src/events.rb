@@ -167,7 +167,7 @@ class Events
       end
       @accept_event_index = -1
       result = 0
-      if (((@event_count + 2) < (@events_menu_variable + 1)) || ((@events_menu_variable + 1) < 0))
+      if (((@event_count + 2) < (@events_menu_variable + 1)) || ((@events_menu_variable + 1) < 0) || @events_menu_variable == -1)
         result = -1
       end
 
