@@ -171,6 +171,9 @@ class Events
         result = -1
       end
 
+      if ($debug_events == 1)
+        print_debug("result in method test_events_menu_variable() -> " + result.to_s + "\n")
+      end
       for counter_i in 0..(@event_count - 1)
         if (@print_action_index[counter_i][0] == @events_menu_variable && result == 0)
           @accept_event_index = @print_action_index[counter_i][1]
