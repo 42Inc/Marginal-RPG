@@ -167,7 +167,7 @@ class Events
       end
       @accept_event_index = -1
       result = 0
-      if (((@event_count + 2) < (@events_menu_variable + 1)) || ((@events_menu_variable + 1) < 0) || @events_menu_variable == -1)
+      if (((@event_count + 2) < (@events_menu_variable + 1)) || ((@events_menu_variable + 1) < 0))
         result = -1
       end
 
@@ -175,7 +175,7 @@ class Events
         print_debug("result in method test_events_menu_variable() -> " + result.to_s + "\n")
       end
       for counter_i in 0..(@event_count - 1)
-        if (@print_action_index[counter_i][0] == @events_menu_variable && result == 0)
+        if (@print_action_index[counter_i][0] == @events_menu_variable && result == 0 && @events_menu_variable >= 0)
           @accept_event_index = @print_action_index[counter_i][1]
         end
       end
