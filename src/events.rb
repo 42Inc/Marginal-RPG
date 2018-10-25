@@ -235,7 +235,6 @@ class Events
         hero.san = hero.san > 10 ? 10 : hero.san
         unless hero.san > -10
           hero.san = -10
-          accept_error = 1
           print_error_msg("Your hero just commited suicide!\n")
           game_over = -2
         else
@@ -249,6 +248,24 @@ class Events
           print_error_msg("Nischebrod!\n")
         end
       end
+      
+      if (@actionsList[@accept_event_index][0] == "Have some sleep")
+        if (old_mp < 30)
+          hero.hp = hero.hp + 90;
+          hero.hp = hero.hp > 100 ? 100 : hero.hp
+        end
+        if (old_mp > 70)
+          hero.san = hero.san - 3
+          unless hero.san > -10
+            hero.san = -10
+            print_error_msg("Your hero just commited suicide!\n")
+            game_over = -2
+          else
+            hero.san = hero.san
+          end
+        end
+      end
+        
       if (accept_error == 1)
         hero.hp = old_hp
         hero.mp = old_mp
