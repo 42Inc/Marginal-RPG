@@ -139,7 +139,7 @@ class Engine
       loop do
         @GameHero.print_stats
         @proc_menu_variable = @GameEvents.get_event_for_hero(@GameHero)
-        break if (@proc_menu_variable == -1 || @proc_menu_variable == -2)        
+        break if (@proc_menu_variable == -1 || @proc_menu_variable == -2)
       end
 
       if (@proc_menu_variable == -2)
@@ -234,5 +234,3 @@ if (ARGV.length > 0)
 end
 
 print_system("Starting engine...\n")
-GameEngine = Engine.new
-GameEngine.run()

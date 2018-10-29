@@ -39,7 +39,6 @@ module Model
       @san = states[0]["San"]
       @cash = states[0]["Cash"]
       print_system("Created new hero: Marginal Valera\n")
-#      print_stats()
       if ($debug_hero == 1)
         $debug_level = $debug_level - 1
         print_debug("End method create_new_hero()\n")
@@ -58,7 +57,6 @@ module Model
       @san = states[0]["San"]
       @cash = states[0]["Cash"]
       print_system("Loaded existing hero: Marginal Valera\n")
-#      print_stats()
       if ($debug_hero == 1)
         $debug_level = $debug_level - 1
         print_debug("End method load_hero()\n")
@@ -70,10 +68,10 @@ module Model
         print_debug("Start method print_stats()\n")
         $debug_level = $debug_level + 1
       end
-#      Health
-#      Mana
-#      Cheerfulness
-#      Fatigue
+      #      Health
+      #      Mana
+      #      Sanity
+      #      Stamina
       printf("HP:\t%s\n", @hp)
       printf("MP:\t%s\n", @mp)
       printf("ST:\t%s\n", @st)
