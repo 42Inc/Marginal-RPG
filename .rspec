@@ -1,3 +1,4 @@
 --require spec_helper
 --format doc
 --require events_spec
+--require hero_spec
