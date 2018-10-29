@@ -21,4 +21,20 @@ RSpec.describe Events do
     expect(0).to eq stats.san
     expect(500).to eq stats.cash
   end
+
+  it "Chill out on the lawn" do
+    #   MP: -10
+    #   ST: 10
+    #   San: 1
+    stats = HeroMarine.new(1)
+    stats.mp = 50
+    stats.st = 30
+    stats.san = 0
+
+    actions.get_event_for_hero(stats)
+
+    expect(40).to eq stats.mp
+    expect(40).to eq stats.st
+    expect(1).to eq stats.san
+  end
 end
