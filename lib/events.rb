@@ -114,8 +114,7 @@ class Events
       end
       return @events_menu_variable
     end
-
-  private
+  
     def print_events_for_hero(hero)
       if ($debug_events == 1)
         print_debug("Start method print_events_for_hero()\n")
@@ -251,7 +250,7 @@ class Events
           print_error_msg("Nischebrod!\n")
         end
       end
-      
+
       if (@actionsList[@accept_event_index][0] == "Have some sleep")
         if (old_mp < 30)
           hero.hp = hero.hp + 90;
@@ -268,7 +267,7 @@ class Events
           end
         end
       end
-        
+
       if (accept_error == 1)
         hero.hp = old_hp
         hero.mp = old_mp
