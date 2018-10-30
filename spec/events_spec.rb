@@ -2,160 +2,128 @@ require_relative "../lib/hero.rb"
 require_relative "../lib/events.rb"
 require_relative "../lib/engine.rb"
 include Model
+STDIN = File.open("./spec/io", "r")
 
-RSpec.describe Events do
-  actions = Events.new
+describe Events do
+  describe '.new' do
+    context 'Go to the mines' do
+      actions = Events.new
+      #   ST: -30
+      #   San: -2
+      #   Cash: 300
+      subject = HeroMarine.new(1)
+      actions.get_event_for_hero(subject)
 
-  it "Go to the mines" do
-    #   ST: -30
-    #   San: -2
-    #   Cash: 300
-    stats = HeroMarine.new(1)
-    stats.st = 30
-    stats.san = 0
-    stats.cash = 500
+      it {expect(subject.st).to eq 30}
+      it {expect(subject.san).to eq 0}
+      it {expect(subject.cash).to eq 500}
+    end
 
-    actions.get_event_for_hero(stats)
+    context 'Chill out on the lawn' do
+      actions = Events.new
+      #   MP: -10
+      #   ST: 10
+      #   San: 1
+      subject = HeroMarine.new(1)
+      actions.get_event_for_hero(subject)
 
-    expect(30).to eq stats.st
-    expect(0).to eq stats.san
-    expect(500).to eq stats.cash
-  end
+      it { expect(subject.mp).to eq 40 }
+      it { expect(subject.st).to eq 40 }
+      it { expect(subject.san).to eq 1 }
+    end
 
-  it "Chill out on the lawn" do
-    #   MP: -10
-    #   ST: 10
-    #   San: 1
-    stats = HeroMarine.new(1)
-    stats.mp = 50
-    stats.st = 30
-    stats.san = 0
+    context 'Drink wine and watch anime' do
+      actions = Events.new
+      #   HP: -5
+      #   MP: 30
+      #   ST: 5
+      #   San: -1
+      #   Cash: -20
+      subject = HeroMarine.new(1)
+      actions.get_event_for_hero(subject)
 
-    actions.get_event_for_hero(stats)
+      it { expect(subject.hp).to eq 95 }
+      it { expect(subject.mp).to eq 80 }
+      it { expect(subject.st).to eq 35 }
+      it { expect(subject.san).to eq -1 }
+      it { expect(subject.cash).to eq 480 }
+    end
 
-    expect(40).to eq stats.mp
-    expect(40).to eq stats.st
-    expect(1).to eq stats.san
-  end
+    context 'Go to the ROOKS' do
+      actions = Events.new
+      #   HP: -10
+      #   MP: 60
+      #   ST: 40
+      #   San: 1
+      #   Cash: -100
+      subject = HeroMarine.new(1)
+      actions.get_event_for_hero(subject)
 
-  it "Drink wine and watch anime" do
-    #   HP: -5
-    #   MP: 30
-    #   ST: 5
-    #   San: -1
-    #   Cash: -20
-    stats = HeroMarine.new(1)
-    stats.hp = 100
-    stats.mp = 50
-    stats.st = 30
-    stats.san = 0
-    stats.cash = 500
+      it { expect(subject.hp).to eq 90 }
+      it { expect(subject.mp).to eq 100 }
+      it { expect(subject.st).to eq 70 }
+      it { expect(subject.san).to eq 1 }
+      it { expect(subject.cash).to eq 400 }
+    end
 
-    actions.get_event_for_hero(stats)
+    context 'Get drunk with anime bois' do
+      actions = Events.new
+      #   HP: -30
+      #   MP: 90
+      #   ST: 60
+      #   San: 3
+      #   Cash: -200
+      subject = HeroMarine.new(1)
+      actions.get_event_for_hero(subject)
 
-    expect(95).to eq stats.hp
-    expect(80).to eq stats.mp
-    expect(35).to eq stats.st
-    expect(-1).to eq stats.san
-    expect(480).to eq stats.cash
-  end
+      it {expect(subject.hp).to eq 70}
+      it {expect(subject.mp).to eq 100}
+      it {expect(subject.st).to eq 90}
+      it {expect(subject.san).to eq 3}
+      it {expect(subject.cash).to eq 300 }
+    end
 
-  it "Go to the ROOKS" do
-    #   HP: -10
-    #   MP: 60
-    #   ST: 40
-    #   San: 1
-    #   Cash: -100
-    stats = HeroMarine.new(1)
-    stats.hp = 100
-    stats.mp = 50
-    stats.st = 30
-    stats.san = 0
-    stats.cash = 500
+    context 'Have some sleep' do
+      actions = Events.new
+      #   HP: 90
+      #   San: -3
+      subject = HeroMarine.new(1)
+      actions.get_event_for_hero(subject)
 
-    actions.get_event_for_hero(stats)
+      it { expect(subject.hp).to eq 100 }
+      it { expect(subject.san).to eq -3}
+    end
 
-    expect(90).to eq stats.hp
-    expect(100).to eq stats.mp
-    expect(70).to eq stats.st
-    expect(1).to eq stats.san
-    expect(400).to eq stats.cash
-  end
+    context 'Go to the gachi-gym' do
+      actions = Events.new
+      #   HP: 20
+      #   ST: -30
+      #   San: 5
+      #   Cash: -100
+      subject = HeroMarine.new(1)
+      actions.get_event_for_hero(subject)
 
-  it "Get drunk with anime bois" do
-    #   HP: -30
-    #   MP: 90
-    #   ST: 60
-    #   San: 3
-    #   Cash: -200
-    stats = HeroMarine.new(1)
-    stats.hp = 100
-    stats.mp = 50
-    stats.st = 30
-    stats.san = 0
-    stats.cash = 500
+      it { expect(subject.hp).to eq 100 }
+      it { expect(subject.st).to eq 30 }
+      it { expect(subject.san).to eq 0 }
+      it { expect(subject.cash).to eq 500 }
+    end
 
-    actions.get_event_for_hero(stats)
+    context 'Visit Navalny rally' do
+      actions = Events.new
+      #   HP: -40
+      #   MP: 10
+      #   ST: -10
+      #   San: 3
+      #   Cash: -100
+      subject = HeroMarine.new(1)
+      actions.get_event_for_hero(subject)
 
-    expect(70).to eq stats.hp
-    expect(100).to eq stats.mp
-    expect(90).to eq stats.st
-    expect(3).to eq stats.san
-    expect(300).to eq stats.cash
-  end
-
-  it "Have some sleep" do
-    #   HP: 90
-    #   San: -3
-    stats = HeroMarine.new(1)
-    stats.hp = 100
-    stats.san = 0
-
-    actions.get_event_for_hero(stats)
-
-    expect(100).to eq stats.hp
-    expect(-3).to eq stats.san
-  end
-
-  it "Go to the gachi-gym" do
-    #   HP: 20
-    #   ST: -30
-    #   San: 5
-    #   Cash: -100
-    stats = HeroMarine.new(1)
-    stats.hp = 100
-    stats.st = 30
-    stats.san = 0
-    stats.cash = 500
-
-    actions.get_event_for_hero(stats)
-
-    expect(100).to eq stats.hp
-    expect(30).to eq stats.st
-    expect(0).to eq stats.san
-    expect(500).to eq stats.cash
-  end
-
-  it "Visit Navalny's rally" do
-    #   HP: -40
-    #   MP: 10
-    #   ST: -10
-    #   San: 3
-    #   Cash: -100
-    stats = HeroMarine.new(1)
-    stats.hp = 100
-    stats.mp = 50
-    stats.st = 30
-    stats.san = 0
-    stats.cash = 500
-
-
-    actions.get_event_for_hero(stats)
-
-    expect(60).to eq stats.hp
-    expect(60).to eq stats.mp
-    expect(20).to eq stats.st
-    expect(3).to eq stats.san
-    expect(400).to eq stats.cash
+      it { expect(subject.hp).to eq 60 }
+      it { expect(subject.mp).to eq 60 }
+      it { expect(subject.st).to eq 20 }
+      it { expect(subject.san).to eq 3 }
+      it { expect(subject.cash).to eq 400 }
+    end
   end
 end

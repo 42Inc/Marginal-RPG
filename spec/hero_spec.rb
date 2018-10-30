@@ -2,7 +2,6 @@ require_relative "../lib/hero.rb"
 require_relative "../lib/events.rb"
 require_relative "../lib/engine.rb"
 include Model
-STDIN = File.open("./spec/test1", "r")
 
 describe HeroMarine do
   describe '.new' do
