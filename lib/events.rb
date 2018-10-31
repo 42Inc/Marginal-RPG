@@ -49,7 +49,7 @@ class Events
 
     def get_event_for_hero(hero)
       if ($debug_events == 1)
-        print_debug("Start method get_variable()\n")
+        print_debug("Start method get_event_for_hero()\n")
         $debug_level = $debug_level + 1
       end
 
@@ -110,7 +110,7 @@ class Events
 
       if ($debug_events == 1)
         $debug_level = $debug_level - 1
-        print_debug("End method get_variable()\n")
+        print_debug("End method get_event_for_hero()\n")
       end
       return @events_menu_variable
     end

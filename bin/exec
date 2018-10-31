@@ -4,3 +4,7 @@ load 'lib/engine.rb'
 
 GameEngine = Engine.new
 GameEngine.run()
+
+if ($tests == 1)
+  exec("rspec ./spec/events_spec.rb")
+end

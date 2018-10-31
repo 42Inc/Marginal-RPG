@@ -2,6 +2,7 @@
 
 $debug_engine = 0
 $debug_level  = 0
+$tests = 0
 
 if (ARGV.length > 0)
   if (ARGV[0] == "y")
@@ -119,6 +120,7 @@ class Engine
           if ($debug_engine == 1)
             print_debug("Accept tests\n")
           end
+          $tests = 1
         else
           print_error("Method game() -> switch-case error!\n")
           exit(1)
