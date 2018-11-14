@@ -2,6 +2,7 @@
 
 $debug_engine = 0
 $debug_level  = 0
+$tests = 0
 
 if (ARGV.length > 0)
   if (ARGV[0] == "y")
@@ -119,6 +120,7 @@ class Engine
           if ($debug_engine == 1)
             print_debug("Accept tests\n")
           end
+          $tests = 1
         else
           print_error("Method game() -> switch-case error!\n")
           exit(1)
@@ -139,7 +141,7 @@ class Engine
       loop do
         @GameHero.print_stats
         @proc_menu_variable = @GameEvents.get_event_for_hero(@GameHero)
-        break if (@proc_menu_variable == -1 || @proc_menu_variable == -2)        
+        break if (@proc_menu_variable == -1 || @proc_menu_variable == -2)
       end
 
       if (@proc_menu_variable == -2)
@@ -234,5 +236,3 @@ if (ARGV.length > 0)
 end
 
 print_system("Starting engine...\n")
-GameEngine = Engine.new
-GameEngine.run()
