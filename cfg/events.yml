@@ -1,0 +1,49 @@
+---
+
+- name: "Go to the mines"
+  ST: -30
+  San: -2
+  Cash: 300
+
+- name: "Chill out on the lawn"
+  MP: -10
+  ST: 10
+  San: 1
+
+- name: "Drink wine and watch anime"
+  HP: -5
+  MP: 30
+  ST: 5
+  San: -1
+  Cash: -20
+
+- name: "Go to the ROOKS"
+  HP: -10
+  MP: 60
+  ST: 40
+  San: 1
+  Cash: -100
+
+- name: "Get drunk with anime bois"
+  HP: -30
+  MP: 90
+  ST: 60
+  San: 3
+  Cash: -200
+
+- name: "Have some sleep"
+  HP: 90
+  San: -3
+
+- name: "Go to the gachi-gym"
+  HP: 20
+  ST: -30
+  San: 5
+  Cash: -100
+
+- name: "Visit Navalny's rally"
+  HP: -40
+  MP: 10
+  ST: -10
+  San: 3
+  Cash: -100
