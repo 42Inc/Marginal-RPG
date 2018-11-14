@@ -49,7 +49,7 @@ class Events
 
     def get_event_for_hero(hero)
       if ($debug_events == 1)
-        print_debug("Start method get_variable()\n")
+        print_debug("Start method get_event_for_hero()\n")
         $debug_level = $debug_level + 1
       end
 
@@ -110,12 +110,11 @@ class Events
 
       if ($debug_events == 1)
         $debug_level = $debug_level - 1
-        print_debug("End method get_variable()\n")
+        print_debug("End method get_event_for_hero()\n")
       end
       return @events_menu_variable
     end
-
-  private
+  
     def print_events_for_hero(hero)
       if ($debug_events == 1)
         print_debug("Start method print_events_for_hero()\n")
@@ -171,8 +170,11 @@ class Events
         result = -1
       end
 
+      if ($debug_events == 1)
+        print_debug("result in method test_events_menu_variable() -> " + result.to_s + "\n")
+      end
       for counter_i in 0..(@event_count - 1)
-        if (@print_action_index[counter_i][0] == @events_menu_variable && result == 0)
+        if (@print_action_index[counter_i][0] == @events_menu_variable && result == 0 && @events_menu_variable >= 0)
           @accept_event_index = @print_action_index[counter_i][1]
         end
       end
@@ -192,6 +194,7 @@ class Events
         $debug_level = $debug_level + 1
       end
       game_over = 0
+      accept_error = 0
       old_hp = hero.hp
       old_mp = hero.mp
       old_st = hero.st
@@ -202,8 +205,8 @@ class Events
         hero.hp = hero.hp + @actionsList[@accept_event_index][1].to_i
         hero.hp = hero.hp > 100 ? 100 : hero.hp
         unless hero.hp > 0
-          hero.hp = 0
           print_error_msg("WASTED!\n")
+          accept_error = 1
           game_over = -2
         else
           hero.hp = hero.hp
@@ -213,12 +216,8 @@ class Events
         hero.mp = hero.mp + @actionsList[@accept_event_index][2].to_i
         hero.mp = hero.mp > 100 ? 100 : hero.mp
         unless hero.mp > 0
-          hero.hp = old_hp
-          hero.mp = old_mp
-          hero.st = old_st
-          hero.san = old_san
-          hero.cash = old_cash
           print_error_msg("Not enough mana!\n")
+          accept_error = 1
         else
           hero.mp = hero.mp
         end
@@ -227,8 +226,8 @@ class Events
         hero.st = hero.st + @actionsList[@accept_event_index][3].to_i
         hero.st = hero.st > 100 ? 100 : hero.st
         unless hero.st > 0
-          hero.st = old_st
           print_error_msg("Not allowed\n")
+          accept_error = 1
         else
           hero.st = hero.st
         end
@@ -247,67 +246,34 @@ class Events
       if (@actionsList[@accept_event_index][5] != nil)
         hero.cash = hero.cash + @actionsList[@accept_event_index][5].to_i
         if (hero.cash < 0)
-          hero.hp = old_hp
-          hero.mp = old_mp
-          hero.st = old_st
-          hero.san = old_san
-          hero.cash = old_cash
-
+          accept_error = 1
           print_error_msg("Nischebrod!\n")
         end
       end
 
-#------------------------Never done------------------------------------------#
-      if (@actionsList[@accept_event_index][6] != nil)
-        print_error("6!\n")
-        hero.hp = hero.hp + @actionsList[@accept_event_index][1].to_i
-        hero.hp = hero.hp > 100 ? 100 : hero.hp
-        hero.san = hero.san + @actionsList[@accept_event_index][4].to_i
-        hero.san = hero.san > 10 ? 10 : hero.san
-        unless hero.san > -10
-          hero.san = -10
-          print_error("Your hero just commited suicide!\n")
-          abort
-        else
-          hero.san = hero.san
+      if (@actionsList[@accept_event_index][0] == "Have some sleep")
+        if (old_mp < 30)
+          hero.hp = hero.hp + 90;
+          hero.hp = hero.hp > 100 ? 100 : hero.hp
+        end
+        if (old_mp > 70)
+          hero.san = hero.san - 3
+          unless hero.san > -10
+            hero.san = -10
+            print_error_msg("Your hero just commited suicide!\n")
+            game_over = -2
+          else
+            hero.san = hero.san
+          end
         end
       end
-      if (@actionsList[@accept_event_index][7] != nil)
-        print_error("7!\n")
-        hero.hp = hero.hp + @actionsList[@accept_event_index][1].to_i
-        hero.hp = hero.hp > 100 ? 100 : hero.hp
-        unless hero.hp > 0
-          hero.hp = 0
-          print_error("WASTED!\n")
-          abort
-        else
-          hero.hp = hero.hp
-        end
-        hero.mp = hero.mp + @actionsList[@accept_event_index][2].to_i
-        hero.mp = hero.mp > 100 ? 100 : hero.mp
-        hero.st = hero.st + @actionsList[@accept_event_index][3].to_i
-        hero.st = hero.st > 100 ? 100 : hero.st
-        unless hero.st > 0
-          hero.hp = old_hp
-          hero.mp = old_mp
-          hero.st = 0
-          hero.san = old_san
-          hero.cash = old_cash
-          print_error("Your hero tired!\n")
-        else
-          hero.st = hero.st
-        end
-        hero.san = hero.san + @actionsList[@accept_event_index][4].to_i
-        hero.san = hero.san > 10 ? 10 : hero.san
-        hero.cash = hero.cash + @actionsList[@accept_event_index][5].to_i
-        if (hero.cash < 0)
-          hero.hp = old_hp
-          hero.mp = old_mp
-          hero.st = old_st
-          hero.san = old_san
-          hero.cash = 0
-          print_error("Nischebrod!\n")
-        end
+
+      if (accept_error == 1)
+        hero.hp = old_hp
+        hero.mp = old_mp
+        hero.st = old_st
+        hero.san = old_san
+        hero.cash = old_cash
       end
       if ($debug_events == 1)
         $debug_level = $debug_level - 1
